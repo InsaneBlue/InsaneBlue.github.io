@@ -89,7 +89,7 @@ this.then = function (onFulfilled) {
 // 例3
 function getUserId() {
   return new Promise(function (resolve) {
-    resolve(9876);
+    resolve(1234);
   });
 }
 
@@ -245,7 +245,7 @@ function Promise(fn) {
 
 ### 失败处理
 
-之前遗留的rejected状态处理在这里补上，异步操作失败时，状态将由pending变为rejected，并执行注册好的是失败回掉：
+之前遗留的rejected状态处理在这里补上，异步操作失败时，状态将由pending变为rejected，并执行注册好的是失败回调：
 
 ```javascript
 //例5
@@ -268,7 +268,7 @@ getUserId().then(function(id) {
 })
 ```
 
-有了之前的基础，支持错误处理变得很容易，在注册回调、吹了状态变更上都要加入新的逻辑：
+有了之前的基础，支持错误处理变得很容易，在注册回调、处理了状态变更上都要加入新的逻辑：
 
 ```javascript
 function Promise(fn) {
@@ -314,16 +314,16 @@ function Promise(fn) {
         }
         state = 'fulfilled';
         value = newValue;
-        execute();
+        final();
     }
 
     function reject(reason) {
         state = 'rejected';
         value = reason;
-        execute();
+        final();
     }
 
-    function finale() {
+    function final() {
         setTimeout(function () {
             callbacks.forEach(function (callback) {
                 handle(callback);
@@ -363,7 +363,7 @@ function handle(callback) {
         return;
     }
 
-    var cb = state === 'fulfilled' ? deferred.onFulfilled : callback.onRejected,
+    var cb = state === 'fulfilled' ? callback.onFulfilled : callback.onRejected,
         ret;
     if (cb === null) {
         cb = state === 'fulfilled' ? callback.resolve : callback.reject;
