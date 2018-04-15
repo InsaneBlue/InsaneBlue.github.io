@@ -2,6 +2,7 @@
 title: Promise原理
 date: 2018-03-17 21:40:03
 tags: promise
+categories: promise
 ---
 
 # Promise原理
