@@ -9,9 +9,9 @@ categories: promise
 
 ## 前言
 
-我在想去自己实现一个Promise类库的时候，首先会去找一些比较简洁又符合标准的一些相关实现，去分析其源码，然后结合几种实现的优点总结出自己的版本，站在巨人的肩膀上让我直接取道直径，快速的实现了我的目标，在这里非常感谢前辈们的努力和给我们留下的宝贵知识财富。
+上一篇已经实现了一个低配版的Promise库，然而鉴于是低配版的，其中必然有很多不符合标准以及和日常使用相悖的地方，也缺少了一些非常实用的扩展方法，所以在本篇里面会从标准中寻找蛛丝马迹 (以下所说的 `标准` 均以 [Promise/A+](https://promisesaplus.com/) 做为参考)，并且依据标准，编写一个可通过标准测试的Promise类库。
 
-从标准中寻找蛛丝马迹 (以下所说的 `标准` 均以 [Promise/A+](https://promisesaplus.com/) 做为参考)，我们将依据标准，编写一个可通过标准测试的Promise类库。
+本篇除了有参考标准以外，也参考了一些比较简洁又符合标准的相关实现及博客文章。
 
 <!--more-->
 
@@ -29,24 +29,24 @@ categories: promise
 // resolver为 function(resolve, reject){ ... }
 function Promise(resolver){
   if(resolver && typeof resolver !== 'function'){ throw new Error('Promise resolver is not a function') }
-  // 当前promise对象的状态
-  this.state = PENDING;
-  // 当前promise对象的数据（成功或失败）
-  this.data = UNDEFINED;
-  // 当前promise对象注册的回调队列
-  this.callbackQueue=[];
+  
+  this.state = PENDING; // 当前promise对象的状态
+  
+  this.data = UNDEFINED; // 当前promise对象的数据（成功或失败）
+  
+  this.callbackQueue=[]; // 当前promise对象注册的回调队列
+
   // 执行resove()或reject()方法
-  if(resolver) executeResolver.call(this, resolver);
+  if(resolver) executeResolver.call(this, resolver); 
 }
 Promise.prototype.then = function(){}
-
 ```
 
-所以，一个 `Promise构造函数` 和`一个实例方法then` 就是Promise的核心的了，其它的都是Promise的语法糖或者说是扩展。
+所以，一个 `Promise构造函数` 和`一个实例方法then` 就是Promise的核心了，其它的都是Promise的语法糖或者说是扩展。
 
 ## 构造器的初始化
 
-使用 `new Promise(function(resolve, reject){...} )`实例化 Promise 时，去改变promise的状态，是执行 resolve() 或 reject()方法，那么，resolver的两个参数分别是成功的操作函数和失败的操作函数。
+使用 `new Promise(function(resolve, reject){...} )`实例化 Promise 时，都需要执行 resolve() 或 reject()方法从而改变promise的状态，那么resolver的两个参数分别是成功的操作函数和失败的操作函数。
 
 ### executeResolver
 
@@ -78,7 +78,6 @@ function executeResolver(resolver){
     onError(e);
   }
 }
-
 ```
 
 ### executeCallback
@@ -109,7 +108,6 @@ function executeCallback(type, x){
     }
     return this;
   }
-
 ```
 
 ### getThen
@@ -125,7 +123,6 @@ function getThen(obj){
    };
   }
 }
-
 ```
 
 到这里，Promise实例初始化的处理逻辑就完成了
@@ -133,7 +130,7 @@ function getThen(obj){
 执行下面这段代码将不会有任何输出，但是promise的状态发生了改变，也就是 `this.status` 为 `resolved`，`this.data` 为 `'ok'`
 
 ```javascript
-new Promise(resolve=>resolve('ok'))
+new Promise(resolve => resolve('ok'))
 
 ```
 
@@ -143,10 +140,8 @@ new Promise(resolve=>resolve('ok'))
 
 标准中规定：
 
-1. `then` 方法必须返回一个新的 `Promise实例`（ES6中的标准，Promise/A+中没有明确说明）
+1. `then` 方法必须返回一个新的 `Promise实例`（ES6的Promise标准）
 2. 为了保证 `then`中回调的执行顺序，`onFulfilled` 或 `onRejected` 必须异步调用
-
-对应标准看具体实现
 
 ```javascript
 Promise.prototype.then = function(onResolved, onRejected){
@@ -181,8 +176,8 @@ Promise.prototype.then = function(onResolved, onRejected){
 
 上面将异步调用callback的逻辑抽象成了一个方法`executeCallbackAsync` ，这个方法主要功能是安全的执行callback方法：
 
-- 如果出错，则自动调用 `reject(reason)` 方法并更改状态为 `rejected`，传递错误数据给当前实例then方法中注册的`onRejected` 回调
-- 如果成功，则自动调用 `resolve(value)`方法并更改状态为`resolved`，传递数据给当前实例then方法中注册的 `onResolved` 回调
+- 如果出错，自动调用 `reject(reason)` 方法并更改状态为`rejected`，传递错误数据给当前实例then方法中注册的`onRejected` 回调
+- 如果成功，自动调用 `resolve(value)`方法并更改状态为`resolved`，传递数据给当前实例then方法中注册的`onResolved` 回调
 
 ```javascript
 // 用于异步执行 .then(onResolved, onRejected) 中注册的回调
@@ -203,11 +198,10 @@ function executeCallbackAsync(callback, value){
     }
   }, 1)
 }
-
 ```
 
 **注意**
-这里最好不要用 `setTimeout` ，使用 `setTimeout` 可以异步执行回调，但其实并不是真正的异步线程，而是利用了浏览器的 `Event Loop` 机制去触发执行回调，而浏览器的事件轮循时间间隔是 `4ms` ，所以连接的调用 `setTimeout` 会有 `4ms` 的时间间隔，而在`Nodejs` 中的 `Event Loop` 时间间隔是 `1ms`，所以会产生一定的延迟，如果promise链比较长，延迟就会越明显，这里可以引入NPM上的 `immediate` 模块来异步无延迟的执行回调。
+这里最好不要用 `setTimeout` ，使用 `setTimeout` 可以异步执行回调，但其实并不是真正的异步线程，而是利用了浏览器的 `Event Loop` 机制去触发执行回调，而浏览器的事件轮循时间间隔一般是 `4ms` ，所以连接的调用 `setTimeout` 会有 `4ms` 的时间间隔，而在`Nodejs` 中的 `Event Loop` 时间间隔是 `1ms`，所以会产生一定的延迟，如果promise链比较长，延迟就会越明显，这里可以引入NPM上的 `immediate` 模块来异步无延迟的执行回调。但是为了简单，这里直接使用setTimeout模拟异步调用。
 
 ### CallbackItem
 
@@ -222,25 +216,23 @@ function CallbackItem(promise, onResolved, onRejected){
   this.onRejected = typeof onRejected === 'function' ? onRejected : function(v){throw v};
 }
 CallbackItem.prototype.resolve = function(value){
-//调用时异步调用 [标准 2.2.4]
+  // 调用时异步调用 [标准 2.2.4]
   executeCallbackAsync.bind(this.promise)(this.onResolved, value);
 }
 CallbackItem.prototype.reject = function(value){
-//调用时异步调用 [标准 2.2.4]
+  // 调用时异步调用 [标准 2.2.4]
   executeCallbackAsync.bind(this.promise)(this.onRejected, value);
 }
-
 ```
 
 ## catch方法
 
-由于catch方法是then(null, onRejected)的语法糖，所以这里也很好实现
+catch方法其实是then(null, onRejected)的语法糖，所以这里也很好实现
 
 ```javascript
 Promise.prototype.catch = function(onRejected){
   return this.then(null, onRejected);
 }
-
 ```
 
 到这里，我们自定义的Promise的相关代码核心都实现完成了，下面可以测试一下
@@ -252,8 +244,8 @@ function fn1(){
     promise.then(res=>console.log(++res))
     promise.then(res=>console.log(++res))
 }
-fn1()
-// 2, 2, 2
+fn1() // 2, 2, 2
+
 function fn2(){
     var promise = new Promise((resolve, reject)=>{
         resolve(1)
@@ -262,15 +254,12 @@ function fn2(){
     .then(res=>(res++, console.log(res), res))
     .then(res=>(res++, console.log(res), res))
 }
-fn2()
-// 2, 3, 4
+fn2() // 2, 3, 4
 
 function fn3(){
     return new Promise((resolve,reject)=>reject(999))
 }
-fn3().catch(err=>console.log(err))
-// 999
-
+fn3().catch(err=>console.log(err)) // 999
 ```
 
 ## 添加扩展方法
@@ -279,7 +268,7 @@ Promise的扩展方法都是基于Promise的构造函数和then方法的实现�
 
 ### all
 
-用于并行执行promise组成的数组（数组中可以不是Promise对象，在调用过程中会使用 `Promise.resolve(value)` 转换成Promise对象），如果全部成功则获得成功的结果组成的数组对象，如果失败，则获得失败的信息，返回一个新的Promise对象
+用于并行执行promise组成的数组（数组中可以不是Promise对象，在调用过程中会使用 `Promise.resolve(value)` 转换成Promise对象）。不论成功失败，返回的都是一个新的Promise对象，返回的数据都会传递到这个新的Promise对象中。如果全部成功，返回的数据是全部成功的结果组成的数组，只要有一个失败，那么会返回失败的信息
 
 ```javascript
 Promise.all = function(iterable){
@@ -307,9 +296,9 @@ Promise.all = function(iterable){
        })
      })(i)
    })
+
  })
 }
-
 ```
 
 使用方式
@@ -323,33 +312,9 @@ function fn2(){
 }
 Promise.all([fn1(), fn2()]).then(res=>console.log(res), err=>console.log(err))
 // [1, 2]
-
 ```
 
-这里的实现，要注意一点的是，**即要保证全部成功，又要保证按数组里原来的顺序返回结果**，在一开始的实现里，我并没有考虑到这个问题，所以最初的实现是没有添加闭包的，那么结果就是数组里的promise谁先成功，谁的结果就占据了第一个位置，就算这个promise是数组的最后一个
-
-最初的 **错误** 实现
-
-```javascript
-var res = Array(len), counter = 0, called=false;
-iterable.forEach(function(v){
-    _this.resolve(v).then(function(value){
-      res[counter] = value;
-      if(++counter===len && !called){
-        called = true;
-        return resolve(res)
-      }
-    }, function(err){
-      if(!called){
-        called = true;
-        return reject(err);
-      }
-    })
-})
-
-```
-
-这样导致的结果就是，返回的结果数组与原来的数组不能一一匹配，上面的测试就会返回 [2, 1]
+这里需要注意的一点是，**即要保证全部成功，又要按照数组里原来的顺序返回结果**，而不是按照返回结果的先后顺序
 
 ### race
 
@@ -382,7 +347,7 @@ Promise.race = function(iterable){
 
 ```
 
-因为 `race` 是返回单个的结果，所以不存类似于 `all` 的情况
+因为 `race` 是返回单个的结果，所以不存类似于 `all` 里面要根据原有顺序返回结果
 
 使用方式
 
@@ -393,8 +358,7 @@ function fn1(){
 function fn2(){
     return new Promise(resolve => setTimeout(()=>resolve(2), 2000))
 }
-Promise.race([fn1(), fn2()]).then(res=>console.log(res), err=>console.log(err))
-// 2
+Promise.race([fn1(), fn2()]).then(res=>console.log(res), err=>console.log(err))// 2
 
 ```
 
@@ -439,14 +403,12 @@ Promise.prototype.wait = function(ms){
     })
   })
 }
-
 ```
 
 使用
 
 ```javascript
 fn1().wait(2000).then(res=>console.log(res),err=>console.log(err))
-
 ```
 
 这里考虑到，`wait` 是用于promise实例对象上的，那么为了可以保证链式调用，必须返回一个 `新的promise`，并且上一步的成功和失败的消息不能丢失，继续向后传递，这里只做延迟处理。
@@ -461,7 +423,6 @@ fn1().wait(2000).then(res=>console.log(res),err=>console.log(err))
 Promise.stop = function(){
   return new this();
 }
-
 ```
 
 使用
@@ -475,7 +436,6 @@ Promise
   })
   .then(res=>console.log(res))
   .catch(err=>console.log(err))
-
 ```
 
 ### always
@@ -490,7 +450,6 @@ Promise.prototype.always = function(fn){
     throw fn(r), r;
   })
 }
-
 ```
 
 使用
@@ -499,7 +458,6 @@ Promise.prototype.always = function(fn){
 ajaxLoadData()
   .then(res=>console.log(res), err=>console.log(err))
   .always(()=>console.log('关闭loading动画'))
-
 ```
 
 ### done
@@ -518,7 +476,6 @@ Promise.prototype.done = function(onResolved, onRejected){
       }, 0);
   });
 }
-
 ```
 
 使用
@@ -530,7 +487,6 @@ ajaxLoadData()
   }, err=>console.log(err))
   .always(()=>console.log('关闭loading动画'))
   .done()//这里会将错误信息 '未捕获的错误' 抛至外层
-
 ```
 
 ### defer
@@ -682,12 +638,4 @@ Promise.deferred = Promise.defer = function(){
 
 ## 源码地址
 
-[Github MPromise](https://github.com/git-lt/MPromise)
-核心代码只有120行，加上扩展230行，应该算是很小的体积了
-如果你从这篇文章了解到了你之前未曾知道的Promise相关知识
-如果你对这个工具类库感兴趣
-如果你希望以后能看到我更多的分享
-
-那么，希望你能给这个项目一个 `star` ，你的鼓励是我不但前行的动力哦，哈哈
-
-下一篇，我们将根据这个实现结合项目应用场景，实践一下。
+[Github my-promise](https://github.com/InsaneBlue/my-promise)
