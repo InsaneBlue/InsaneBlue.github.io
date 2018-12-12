@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="promise,javascript," />
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="与其感慨路难行，不如马上出发">
+<meta name="description" content="前言  Promise对于异步操作来说是一项重要的功能改善，但它们依然经常会产生冗长且难以阅读的代码。  Async/await则是一种新的语法（借鉴自.NET and C#），它允许我们在组合Promise时，就像正常的同步函数那样，不需要使用回调。对于JavaScript来说，这是非常棒的新特性，它已经被添加到ES7中，能够用来极大地简化已有的JS应用程序。">
+<meta name="keywords" content="promise,javascript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="async&#x2F;await使用基础">
 <meta property="og:url" content="http://yoursite.com/2018/12/06/async-await使用基础/index.html">
 <meta property="og:site_name" content="玩偶之家">
-<meta property="og:description" content="与其感慨路难行，不如马上出发">
+<meta property="og:description" content="前言  Promise对于异步操作来说是一项重要的功能改善，但它们依然经常会产生冗长且难以阅读的代码。  Async/await则是一种新的语法（借鉴自.NET and C#），它允许我们在组合Promise时，就像正常的同步函数那样，不需要使用回调。对于JavaScript来说，这是非常棒的新特性，它已经被添加到ES7中，能够用来极大地简化已有的JS应用程序。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-06T15:46:54.194Z">
+<meta property="og:updated_time" content="2018-12-12T15:59:20.150Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="async&#x2F;await使用基础">
-<meta name="twitter:description" content="与其感慨路难行，不如马上出发">
+<meta name="twitter:description" content="前言  Promise对于异步操作来说是一项重要的功能改善，但它们依然经常会产生冗长且难以阅读的代码。  Async/await则是一种新的语法（借鉴自.NET and C#），它允许我们在组合Promise时，就像正常的同步函数那样，不需要使用回调。对于JavaScript来说，这是非常棒的新特性，它已经被添加到ES7中，能够用来极大地简化已有的JS应用程序。">
 
 
 
@@ -272,6 +273,39 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/promise/" itemprop="url" rel="index">
+                    <span itemprop="name">promise</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -299,7 +333,13 @@
       
 
       
-        
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>  Promise对于异步操作来说是一项重要的功能改善，但它们依然经常会产生冗长且难以阅读的代码。<br>  Async/await则是一种新的语法（借鉴自.NET and C#），它允许我们在组合Promise时，就像正常的同步函数那样，不需要使用回调。对于JavaScript来说，这是非常棒的新特性，它已经被添加到ES7中，能够用来极大地简化已有的JS应用程序。</p>
+<a id="more"></a>
+<h1 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h1><p>先假定有如下几个异步请求操作，现在需要按顺序执行这三个异步操作，分别是getUser、getFriend、getPhoto。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Api</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span> () &#123;</span><br><span class="line">    <span class="keyword">this</span>.user = &#123; <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">name</span>: <span class="string">'test'</span> &#125;</span><br><span class="line">    <span class="keyword">this</span>.friends = [ <span class="keyword">this</span>.user, <span class="keyword">this</span>.user, <span class="keyword">this</span>.user ]</span><br><span class="line">    <span class="keyword">this</span>.photo = <span class="string">'not a real photo'</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  getUser () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="keyword">this</span>.user), <span class="number">200</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  getFriends (userId) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="keyword">this</span>.friends.slice()), <span class="number">200</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  getPhoto (userId) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="keyword">this</span>.photo), <span class="number">200</span>)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  throwError () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Intentional Error'</span>)), <span class="number">200</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先来看看嵌套的promise写法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> api = <span class="keyword">new</span> api();</span><br><span class="line"><span class="keyword">let</span> user, friends, photo;</span><br><span class="line">api.getUser().then(<span class="function"><span class="params">returnedUser</span> =&gt;</span> &#123;</span><br><span class="line">  user = returnedUser;</span><br><span class="line"></span><br><span class="line">  api.getFriends(user.id).then(<span class="function"><span class="params">returnedFriends</span> =&gt;</span> &#123;</span><br><span class="line">    friend = returnedFriends;</span><br><span class="line"></span><br><span class="line">    api.getPhoto(user.id).then(<span class="function"><span class="params">photo</span> =&gt;</span> &#123;</span><br><span class="line">      photo = photo;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>这不是一个好的实现，本质上跟回调地狱差别不大，只是将回调函数变为了promise，随着异步操作的增多，代码会变得非常冗长而且具有很深的嵌套。更糟糕的是，所有的promise都没有对异常进行捕获和抛出，一旦失败，外部根本无法感知。</p>
+
       
     </div>
     
@@ -313,6 +353,14 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/promise/" rel="tag"># promise</a>
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
       
 
       
@@ -383,8 +431,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -410,7 +467,7 @@
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 
               </div>
@@ -421,7 +478,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -444,6 +501,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简单使用"><span class="nav-number">2.</span> <span class="nav-text">简单使用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
