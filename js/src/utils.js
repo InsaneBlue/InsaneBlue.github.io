@@ -337,16 +337,3 @@ $(document).ready(function () {
   }
 
 });
-
-
-const api = new api();
-let user, friends, photo;
-api.getUser().then(returnedUser => {
-  user = returnedUser;
-  api.getFriends(user.id).then(returnedFriends) {
-    friend = returnedFriends;
-    api.getPhoto(user.id).then(photo => {
-      photo = photo;
-    })
-  }
-})
