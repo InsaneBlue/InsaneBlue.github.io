@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="上一篇已经实现了一个低配版的Promise库，然而鉴于是低配版的，其中必然有很多不符合标准以及和日常使用相悖的地方，也缺少了一些非常实用的扩展方法，所以在本篇里面会从标准中寻找蛛丝马迹 (以下所说的 标准 均以 Promise/A+ 做为参考)，并且依据标准，编写一个可通过标准测试的Promise类库。 本篇除了有参考标准以外，也参考了一些比较简洁又符合标准的相关实现及博客文章。">
+<meta name="description" content="Promise标准实现前言上一篇已经实现了一个低配版的Promise库，然而鉴于是低配版的，其中必然有很多不符合标准以及和日常使用相悖的地方，也缺少了一些非常实用的扩展方法，所以在本篇里面会从标准中寻找蛛丝马迹 (以下所说的 标准 均以 Promise/A+ 做为参考)，并且依据标准，编写一个可通过标准测试的Promise类库。 本篇除了有参考标准以外，也参考了一些比较简洁又符合标准的相关实现及博">
 <meta name="keywords" content="promise">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Promise标准实现">
 <meta property="og:url" content="http://yoursite.com/2018/04/12/Promise标准实现/index.html">
 <meta property="og:site_name" content="玩偶之家">
-<meta property="og:description" content="上一篇已经实现了一个低配版的Promise库，然而鉴于是低配版的，其中必然有很多不符合标准以及和日常使用相悖的地方，也缺少了一些非常实用的扩展方法，所以在本篇里面会从标准中寻找蛛丝马迹 (以下所说的 标准 均以 Promise/A+ 做为参考)，并且依据标准，编写一个可通过标准测试的Promise类库。 本篇除了有参考标准以外，也参考了一些比较简洁又符合标准的相关实现及博客文章。">
+<meta property="og:description" content="Promise标准实现前言上一篇已经实现了一个低配版的Promise库，然而鉴于是低配版的，其中必然有很多不符合标准以及和日常使用相悖的地方，也缺少了一些非常实用的扩展方法，所以在本篇里面会从标准中寻找蛛丝马迹 (以下所说的 标准 均以 Promise/A+ 做为参考)，并且依据标准，编写一个可通过标准测试的Promise类库。 本篇除了有参考标准以外，也参考了一些比较简洁又符合标准的相关实现及博">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://7xi480.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-12-04%20%E4%B8%8A%E5%8D%889.20.57.png">
-<meta property="og:updated_time" content="2019-02-04T07:01:37.975Z">
+<meta property="og:updated_time" content="2019-02-04T08:36:17.537Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Promise标准实现">
-<meta name="twitter:description" content="上一篇已经实现了一个低配版的Promise库，然而鉴于是低配版的，其中必然有很多不符合标准以及和日常使用相悖的地方，也缺少了一些非常实用的扩展方法，所以在本篇里面会从标准中寻找蛛丝马迹 (以下所说的 标准 均以 Promise/A+ 做为参考)，并且依据标准，编写一个可通过标准测试的Promise类库。 本篇除了有参考标准以外，也参考了一些比较简洁又符合标准的相关实现及博客文章。">
+<meta name="twitter:description" content="Promise标准实现前言上一篇已经实现了一个低配版的Promise库，然而鉴于是低配版的，其中必然有很多不符合标准以及和日常使用相悖的地方，也缺少了一些非常实用的扩展方法，所以在本篇里面会从标准中寻找蛛丝马迹 (以下所说的 标准 均以 Promise/A+ 做为参考)，并且依据标准，编写一个可通过标准测试的Promise类库。 本篇除了有参考标准以外，也参考了一些比较简洁又符合标准的相关实现及博">
 <meta name="twitter:image" content="http://7xi480.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-12-04%20%E4%B8%8A%E5%8D%889.20.57.png">
 
 
@@ -102,7 +102,7 @@
     root: '/',
     scheme: 'Pisces',
     version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -147,7 +147,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -324,7 +324,7 @@
       
 
       
-        <p>上一篇已经实现了一个低配版的Promise库，然而鉴于是低配版的，其中必然有很多不符合标准以及和日常使用相悖的地方，也缺少了一些非常实用的扩展方法，所以在本篇里面会从标准中寻找蛛丝马迹 (以下所说的 <code>标准</code> 均以 <a href="https://promisesaplus.com/" target="_blank" rel="noopener">Promise/A+</a> 做为参考)，并且依据标准，编写一个可通过标准测试的Promise类库。</p>
+        <h1 id="Promise标准实现"><a href="#Promise标准实现" class="headerlink" title="Promise标准实现"></a>Promise标准实现</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上一篇已经实现了一个低配版的Promise库，然而鉴于是低配版的，其中必然有很多不符合标准以及和日常使用相悖的地方，也缺少了一些非常实用的扩展方法，所以在本篇里面会从标准中寻找蛛丝马迹 (以下所说的 <code>标准</code> 均以 <a href="https://promisesaplus.com/" target="_blank" rel="noopener">Promise/A+</a> 做为参考)，并且依据标准，编写一个可通过标准测试的Promise类库。</p>
 <p>本篇除了有参考标准以外，也参考了一些比较简洁又符合标准的相关实现及博客文章。</p>
 <a id="more"></a>
 <h2 id="Promise类的结构"><a href="#Promise类的结构" class="headerlink" title="Promise类的结构"></a>Promise类的结构</h2><p>标准中规定：</p>
@@ -558,7 +558,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -613,7 +613,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise类的结构"><span class="nav-number">1.</span> <span class="nav-text">Promise类的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造器的初始化"><span class="nav-number">2.</span> <span class="nav-text">构造器的初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#executeResolver"><span class="nav-number">2.1.</span> <span class="nav-text">executeResolver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#executeCallback"><span class="nav-number">2.2.</span> <span class="nav-text">executeCallback</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getThen"><span class="nav-number">2.3.</span> <span class="nav-text">getThen</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#then方法"><span class="nav-number">3.</span> <span class="nav-text">then方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#executeCallbackAsync"><span class="nav-number">3.1.</span> <span class="nav-text">executeCallbackAsync</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CallbackItem"><span class="nav-number">3.2.</span> <span class="nav-text">CallbackItem</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#catch方法"><span class="nav-number">4.</span> <span class="nav-text">catch方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加扩展方法"><span class="nav-number">5.</span> <span class="nav-text">添加扩展方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#all"><span class="nav-number">5.1.</span> <span class="nav-text">all</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#race"><span class="nav-number">5.2.</span> <span class="nav-text">race</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#resolve"><span class="nav-number">5.3.</span> <span class="nav-text">resolve</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reject"><span class="nav-number">5.4.</span> <span class="nav-text">reject</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wait"><span class="nav-number">5.5.</span> <span class="nav-text">wait</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stop"><span class="nav-number">5.6.</span> <span class="nav-text">stop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#always"><span class="nav-number">5.7.</span> <span class="nav-text">always</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#done"><span class="nav-number">5.8.</span> <span class="nav-text">done</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#defer"><span class="nav-number">5.9.</span> <span class="nav-text">defer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#timeout"><span class="nav-number">5.10.</span> <span class="nav-text">timeout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sequence"><span class="nav-number">5.11.</span> <span class="nav-text">sequence</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">6.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码地址"><span class="nav-number">7.</span> <span class="nav-text">源码地址</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Promise标准实现"><span class="nav-number">1.</span> <span class="nav-text">Promise标准实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise类的结构"><span class="nav-number">1.2.</span> <span class="nav-text">Promise类的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造器的初始化"><span class="nav-number">1.3.</span> <span class="nav-text">构造器的初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#executeResolver"><span class="nav-number">1.3.1.</span> <span class="nav-text">executeResolver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#executeCallback"><span class="nav-number">1.3.2.</span> <span class="nav-text">executeCallback</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getThen"><span class="nav-number">1.3.3.</span> <span class="nav-text">getThen</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#then方法"><span class="nav-number">1.4.</span> <span class="nav-text">then方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#executeCallbackAsync"><span class="nav-number">1.4.1.</span> <span class="nav-text">executeCallbackAsync</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CallbackItem"><span class="nav-number">1.4.2.</span> <span class="nav-text">CallbackItem</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#catch方法"><span class="nav-number">1.5.</span> <span class="nav-text">catch方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加扩展方法"><span class="nav-number">1.6.</span> <span class="nav-text">添加扩展方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#all"><span class="nav-number">1.6.1.</span> <span class="nav-text">all</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#race"><span class="nav-number">1.6.2.</span> <span class="nav-text">race</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#resolve"><span class="nav-number">1.6.3.</span> <span class="nav-text">resolve</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reject"><span class="nav-number">1.6.4.</span> <span class="nav-text">reject</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wait"><span class="nav-number">1.6.5.</span> <span class="nav-text">wait</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stop"><span class="nav-number">1.6.6.</span> <span class="nav-text">stop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#always"><span class="nav-number">1.6.7.</span> <span class="nav-text">always</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#done"><span class="nav-number">1.6.8.</span> <span class="nav-text">done</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#defer"><span class="nav-number">1.6.9.</span> <span class="nav-text">defer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#timeout"><span class="nav-number">1.6.10.</span> <span class="nav-text">timeout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sequence"><span class="nav-number">1.6.11.</span> <span class="nav-text">sequence</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">1.7.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码地址"><span class="nav-number">1.8.</span> <span class="nav-text">源码地址</span></a></li></ol></li></ol></div>
             
 
           </div>

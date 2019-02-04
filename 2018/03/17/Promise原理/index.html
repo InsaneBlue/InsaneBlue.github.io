@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="Promise 是一种对异步操作的封装，可以通过独立的接口添加在异步操作执行成功、失败时执行的方法。主流的规范是 Promises/A+。">
+<meta name="description" content="Promise原理前言Promise 是一种对异步操作的封装，可以通过独立的接口添加在异步操作执行成功、失败时执行的方法。主流的规范是 Promises/A+。">
 <meta name="keywords" content="promise">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Promise原理">
 <meta property="og:url" content="http://yoursite.com/2018/03/17/Promise原理/index.html">
 <meta property="og:site_name" content="玩偶之家">
-<meta property="og:description" content="Promise 是一种对异步操作的封装，可以通过独立的接口添加在异步操作执行成功、失败时执行的方法。主流的规范是 Promises/A+。">
+<meta property="og:description" content="Promise原理前言Promise 是一种对异步操作的封装，可以通过独立的接口添加在异步操作执行成功、失败时执行的方法。主流的规范是 Promises/A+。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/03/17/Promise原理/promise-states-flow.png">
 <meta property="og:image" content="http://yoursite.com/2018/03/17/Promise原理/promise-series-flow.png">
-<meta property="og:updated_time" content="2019-02-04T07:01:42.348Z">
+<meta property="og:updated_time" content="2019-02-04T08:36:17.534Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Promise原理">
-<meta name="twitter:description" content="Promise 是一种对异步操作的封装，可以通过独立的接口添加在异步操作执行成功、失败时执行的方法。主流的规范是 Promises/A+。">
+<meta name="twitter:description" content="Promise原理前言Promise 是一种对异步操作的封装，可以通过独立的接口添加在异步操作执行成功、失败时执行的方法。主流的规范是 Promises/A+。">
 <meta name="twitter:image" content="http://yoursite.com/2018/03/17/Promise原理/promise-states-flow.png">
 
 
@@ -103,7 +103,7 @@
     root: '/',
     scheme: 'Pisces',
     version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -148,7 +148,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -325,7 +325,7 @@
       
 
       
-        <p>Promise 是一种对异步操作的封装，可以通过独立的接口添加在异步操作执行成功、失败时执行的方法。主流的规范是 <a href="http://promisesaplus.com/" target="_blank" rel="noopener">Promises/A+</a>。</p>
+        <h1 id="Promise原理"><a href="#Promise原理" class="headerlink" title="Promise原理"></a>Promise原理</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Promise 是一种对异步操作的封装，可以通过独立的接口添加在异步操作执行成功、失败时执行的方法。主流的规范是 <a href="http://promisesaplus.com/" target="_blank" rel="noopener">Promises/A+</a>。</p>
 <a id="more"></a>
 <h2 id="内部机制"><a href="#内部机制" class="headerlink" title="内部机制"></a>内部机制</h2><h3 id="基础实现"><a href="#基础实现" class="headerlink" title="基础实现"></a>基础实现</h3><p>为了增加代入感和增进理解，先从最基础的使用场景开始探索。例一是用Promise来实现通过异步请求获取用户id，然后做一些处理这样一个简单需求。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例1</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUserId</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 异步请求</span></span><br><span class="line">    http.get(url, <span class="function"><span class="keyword">function</span>(<span class="params">results</span>) </span>&#123;</span><br><span class="line">        resolve(results.id)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line">getUserId().then(<span class="function"><span class="keyword">function</span>(<span class="params">id</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 一些处理</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
@@ -498,7 +498,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -553,7 +553,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#内部机制"><span class="nav-number">1.</span> <span class="nav-text">内部机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础实现"><span class="nav-number">1.1.</span> <span class="nav-text">基础实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#延时"><span class="nav-number">1.2.</span> <span class="nav-text">延时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入状态"><span class="nav-number">1.3.</span> <span class="nav-text">引入状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#串行Promise"><span class="nav-number">1.4.</span> <span class="nav-text">串行Promise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#失败处理"><span class="nav-number">1.5.</span> <span class="nav-text">失败处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常处理"><span class="nav-number">1.6.</span> <span class="nav-text">异常处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.7.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Promise原理"><span class="nav-number">1.</span> <span class="nav-text">Promise原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内部机制"><span class="nav-number">1.2.</span> <span class="nav-text">内部机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础实现"><span class="nav-number">1.2.1.</span> <span class="nav-text">基础实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#延时"><span class="nav-number">1.2.2.</span> <span class="nav-text">延时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入状态"><span class="nav-number">1.2.3.</span> <span class="nav-text">引入状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#串行Promise"><span class="nav-number">1.2.4.</span> <span class="nav-text">串行Promise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#失败处理"><span class="nav-number">1.2.5.</span> <span class="nav-text">失败处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常处理"><span class="nav-number">1.2.6.</span> <span class="nav-text">异常处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.2.7.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
