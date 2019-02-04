@@ -87,10 +87,14 @@
 <meta property="og:site_name" content="玩偶之家">
 <meta property="og:description" content="Event Loop就是事件循环，是指浏览器或Node的一种解决javaScript单线程运行时不会阻塞的一种机制，也就是我们经常使用异步的原理。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-04T08:26:16.605Z">
+<meta property="og:image" content="http://yoursite.com/2019/02/04/Event-Loop事件循环/p1.webp.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/02/04/Event-Loop事件循环/p2.webp.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/02/04/Event-Loop事件循环/p3.gif">
+<meta property="og:updated_time" content="2019-02-04T08:31:16.967Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Event Loop事件循环">
 <meta name="twitter:description" content="Event Loop就是事件循环，是指浏览器或Node的一种解决javaScript单线程运行时不会阻塞的一种机制，也就是我们经常使用异步的原理。">
+<meta name="twitter:image" content="http://yoursite.com/2019/02/04/Event-Loop事件循环/p1.webp.jpg">
 
 
 
@@ -336,9 +340,9 @@
 <h2 id="浏览器中的Event-Loop"><a href="#浏览器中的Event-Loop" class="headerlink" title="浏览器中的Event Loop"></a>浏览器中的Event Loop</h2><p>Javascript 有一个 main thread 主线程和 call-stack 调用栈(执行栈)，所有的任务都会被放到调用栈等待主线程执行。</p>
 <h3 id="JS调用栈"><a href="#JS调用栈" class="headerlink" title="JS调用栈"></a>JS调用栈</h3><p>JS调用栈采用的是后进先出的规则，当函数执行的时候，会被添加到栈的顶部，当执行栈执行完成后，就会从栈顶移出，直到栈内被清空。</p>
 <h3 id="同步任务和异步任务"><a href="#同步任务和异步任务" class="headerlink" title="同步任务和异步任务"></a>同步任务和异步任务</h3><p>Javascript单线程任务被分为同步任务和异步任务，同步任务会在调用栈中按照顺序等待主线程依次执行，异步任务会在异步任务有了结果后，将注册的回调函数放入任务队列中等待主线程空闲的时候（调用栈被清空），被读取到栈内等待主线程的执行。</p>
-
+<img src="/2019/02/04/Event-Loop事件循环/p1.webp.jpg">
 <p>任务队列Task Queue，即队列，是一种先进先出的一种数据结构</p>
-
+<img src="/2019/02/04/Event-Loop事件循环/p2.webp.jpg">
 <h3 id="事件循环的进程模型"><a href="#事件循环的进程模型" class="headerlink" title="事件循环的进程模型"></a>事件循环的进程模型</h3><ul>
 <li><p>选择当前要执行的任务队列，选择任务队列中最先进入的任务，如果任务队列为空即null，则执行跳转到微任务（MicroTask）的执行步骤。</p>
 </li>
@@ -367,7 +371,7 @@
 <li><p>设置进入microtask检查点的标志为false。</p>
 </li>
 </ul>
-
+<img src="/2019/02/04/Event-Loop事件循环/p3.gif">
 <p>执行栈在执行完同步任务后，查看执行栈是否为空，如果执行栈为空，就会去检查微任务(microTask)队列是否为空，如果为空的话，就执行Task（宏任务），否则就一次性执行完所有微任务。<br>每次单个宏任务执行完毕后，检查微任务(microTask)队列是否为空，如果不为空的话，会按照先入先出的规则全部执行完微任务(microTask)后，设置微任务(microTask)队列为null，然后再执行宏任务，如此循环。</p>
 <h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'script start'</span>);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'setTimeout'</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'promise1'</span>);</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'promise2'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'script end'</span>);</span><br></pre></td></tr></table></figure>
 <h3 id="第一次执行："><a href="#第一次执行：" class="headerlink" title="第一次执行："></a>第一次执行：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Tasks：run script、 setTimeout callback</span><br><span class="line"></span><br><span class="line">Microtasks：Promise then</span><br><span class="line"></span><br><span class="line">JS stack: script</span><br><span class="line">Log: script start、script end。</span><br></pre></td></tr></table></figure>
