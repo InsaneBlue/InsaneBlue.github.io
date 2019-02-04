@@ -5,10 +5,6 @@ tags: promise
 categories: promise
 ---
 
-# Promise原理
-
-## 前言
-
 Promise 是一种对异步操作的封装，可以通过独立的接口添加在异步操作执行成功、失败时执行的方法。主流的规范是 [Promises/A+](http://promisesaplus.com/)。
 
 <!--more-->

@@ -5,10 +5,6 @@ tags: promise
 categories: promise
 ---
 
-# Promise使用基础
-
-## 前言
-
 前面两篇文章介绍了Promise的原理及标准实现，本篇主要介绍Promise的使用基础和各种不同的用法。虽然平时一直都在使用Promise，但是对于其中的一些注意点和最佳实践还有一些不太清晰的地方，所以在这里补上一篇使用基础。
 
 <!--more-->

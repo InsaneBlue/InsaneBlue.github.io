@@ -5,8 +5,6 @@ tags: [javascript, promise]
 categories: [javascript, promise]
 ---
 
-# 前言 
-
   Promise对于异步操作来说是一项重要的功能改善，但它们依然经常会产生冗长且难以阅读的代码。
   Async/await则是一种新的语法（借鉴自.NET and C#），它允许我们在组合Promise时，就像正常的同步函数那样，不需要使用回调。对于JavaScript来说，这是非常棒的新特性，它已经被添加到ES7中，能够用来极大地简化已有的JS应用程序。
 
