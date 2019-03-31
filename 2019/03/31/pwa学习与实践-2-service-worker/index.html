@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="与其感慨路难行，不如马上出发">
+<meta name="description" content="service worker 特点Service Worker 有以下功能和特性：  一个独立的 worker 线程，独立于当前网页进程，有自己独立的 worker context。  一旦被 install，就永远存在，除非被手动 unregister  用到的时候可以直接唤醒，不用的时候自动睡眠  可编程拦截代理请求和返回，缓存文件，缓存的文件可以被网页进程取到（包括网络离线状态）  离线内">
 <meta name="keywords" content="pwa">
 <meta property="og:type" content="article">
 <meta property="og:title" content="pwa学习与实践(2)-service-worker">
 <meta property="og:url" content="http://yoursite.com/2019/03/31/pwa学习与实践-2-service-worker/index.html">
 <meta property="og:site_name" content="玩偶之家">
-<meta property="og:description" content="与其感慨路难行，不如马上出发">
+<meta property="og:description" content="service worker 特点Service Worker 有以下功能和特性：  一个独立的 worker 线程，独立于当前网页进程，有自己独立的 worker context。  一旦被 install，就永远存在，除非被手动 unregister  用到的时候可以直接唤醒，不用的时候自动睡眠  可编程拦截代理请求和返回，缓存文件，缓存的文件可以被网页进程取到（包括网络离线状态）  离线内">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-31T13:03:03.021Z">
+<meta property="og:updated_time" content="2019-03-31T13:22:21.736Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pwa学习与实践(2)-service-worker">
-<meta name="twitter:description" content="与其感慨路难行，不如马上出发">
+<meta name="twitter:description" content="service worker 特点Service Worker 有以下功能和特性：  一个独立的 worker 线程，独立于当前网页进程，有自己独立的 worker context。  一旦被 install，就永远存在，除非被手动 unregister  用到的时候可以直接唤醒，不用的时候自动睡眠  可编程拦截代理请求和返回，缓存文件，缓存的文件可以被网页进程取到（包括网络离线状态）  离线内">
 
 
 
@@ -322,7 +322,29 @@
       
 
       
-        
+        <a id="more"></a>
+<h1 id="service-worker-特点"><a href="#service-worker-特点" class="headerlink" title="service worker 特点"></a>service worker 特点</h1><p>Service Worker 有以下功能和特性：</p>
+<ul>
+<li><p>一个独立的 worker 线程，独立于当前网页进程，有自己独立的 worker context。</p>
+</li>
+<li><p>一旦被 install，就永远存在，除非被手动 unregister</p>
+</li>
+<li><p>用到的时候可以直接唤醒，不用的时候自动睡眠</p>
+</li>
+<li><p>可编程拦截代理请求和返回，缓存文件，缓存的文件可以被网页进程取到（包括网络离线状态）</p>
+</li>
+<li><p>离线内容开发者可控</p>
+</li>
+<li><p>能向客户端推送消息</p>
+</li>
+<li><p>不能直接操作 DOM</p>
+</li>
+<li><p>必须在 HTTPS 环境下才能工作</p>
+</li>
+<li><p>异步实现，内部大都是通过 Promise 实现</p>
+</li>
+</ul>
+
       
     </div>
     
@@ -416,8 +438,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -477,6 +508,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#service-worker-特点"><span class="nav-number">1.</span> <span class="nav-text">service worker 特点</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

@@ -79,18 +79,21 @@
 
 
 
-<meta name="description" content="与其感慨路难行，不如马上出发">
+<meta name="description" content="Manifest是一个JSON格式的文件，你可以把它理解为一个指定了Web App桌面图标、名称、开屏图标、运行模式等一系列资源的一个清单。">
 <meta name="keywords" content="pwa">
 <meta property="og:type" content="article">
 <meta property="og:title" content="pwa学习与实践(3)-manifest">
 <meta property="og:url" content="http://yoursite.com/2019/03/31/pwa学习与实践-3-manifest/index.html">
 <meta property="og:site_name" content="玩偶之家">
-<meta property="og:description" content="与其感慨路难行，不如马上出发">
+<meta property="og:description" content="Manifest是一个JSON格式的文件，你可以把它理解为一个指定了Web App桌面图标、名称、开屏图标、运行模式等一系列资源的一个清单。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-31T13:03:05.121Z">
+<meta property="og:image" content="http://yoursite.com/2019/03/31/pwa学习与实践-3-manifest/pwa-03-01.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/31/pwa学习与实践-3-manifest/pwa-03-02.png">
+<meta property="og:updated_time" content="2019-03-31T14:13:09.411Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pwa学习与实践(3)-manifest">
-<meta name="twitter:description" content="与其感慨路难行，不如马上出发">
+<meta name="twitter:description" content="Manifest是一个JSON格式的文件，你可以把它理解为一个指定了Web App桌面图标、名称、开屏图标、运行模式等一系列资源的一个清单。">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/31/pwa学习与实践-3-manifest/pwa-03-01.png">
 
 
 
@@ -322,7 +325,46 @@
       
 
       
-        
+        <p>Manifest是一个JSON格式的文件，你可以把它理解为一个指定了Web App桌面图标、名称、开屏图标、运行模式等一系列资源的一个清单。</p>
+<a id="more"></a>
+<h1 id="Web-App-Manifest"><a href="#Web-App-Manifest" class="headerlink" title="Web App Manifest"></a>Web App Manifest</h1><p>这里引用<a href="https://developer.mozilla.org/zh-CN/docs/Web/Manifest" target="_blank" rel="noopener">MDN</a>上面的一句话：</p>
+<blockquote>
+<p> manifest 的目的是将Web应用程序安装到设备的主屏幕，为用户提供更快的访问和更丰富的体验。</p>
+</blockquote>
+<p>如果需要使用Manifest除了需要一个Web应用程序清单之外，还需要将其部署在HTML页面中，在文件的头部加上一个链接标记：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"manifest"</span> <span class="attr">href</span>=<span class="string">"/manifest.json"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Manifest 范例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"name"</span>: <span class="string">"图书搜索"</span>,</span><br><span class="line">    <span class="string">"short_name"</span>: <span class="string">"书查"</span>,</span><br><span class="line">    <span class="string">"start_url"</span>: <span class="string">"/"</span>,</span><br><span class="line">    <span class="string">"display"</span>: <span class="string">"standalone"</span>,</span><br><span class="line">    <span class="string">"background_color"</span>: <span class="string">"#333"</span>,</span><br><span class="line">    <span class="string">"description"</span>: <span class="string">"一个搜索图书的小WebAPP（基于豆瓣开放接口）"</span>,</span><br><span class="line">    <span class="string">"orientation"</span>: <span class="string">"portrait-primary"</span>,</span><br><span class="line">    <span class="string">"theme_color"</span>: <span class="string">"#5eace0"</span>,</span><br><span class="line">    <span class="string">"icons"</span>: [&#123;</span><br><span class="line">        <span class="string">"src"</span>: <span class="string">"img/icons/book-32.png"</span>,</span><br><span class="line">        <span class="string">"sizes"</span>: <span class="string">"32x32"</span>,</span><br><span class="line">        <span class="string">"type"</span>: <span class="string">"image/png"</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="string">"src"</span>: <span class="string">"img/icons/book-72.png"</span>,</span><br><span class="line">        <span class="string">"sizes"</span>: <span class="string">"72x72"</span>,</span><br><span class="line">        <span class="string">"type"</span>: <span class="string">"image/png"</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="string">"src"</span>: <span class="string">"img/icons/book-128.png"</span>,</span><br><span class="line">        <span class="string">"sizes"</span>: <span class="string">"128x128"</span>,</span><br><span class="line">        <span class="string">"type"</span>: <span class="string">"image/png"</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="string">"src"</span>: <span class="string">"img/icons/book-144.png"</span>,</span><br><span class="line">        <span class="string">"sizes"</span>: <span class="string">"144x144"</span>,</span><br><span class="line">        <span class="string">"type"</span>: <span class="string">"image/png"</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="string">"src"</span>: <span class="string">"img/icons/book-192.png"</span>,</span><br><span class="line">        <span class="string">"sizes"</span>: <span class="string">"192x192"</span>,</span><br><span class="line">        <span class="string">"type"</span>: <span class="string">"image/png"</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="string">"src"</span>: <span class="string">"img/icons/book-256.png"</span>,</span><br><span class="line">        <span class="string">"sizes"</span>: <span class="string">"256x256"</span>,</span><br><span class="line">        <span class="string">"type"</span>: <span class="string">"image/png"</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="string">"src"</span>: <span class="string">"img/icons/book-512.png"</span>,</span><br><span class="line">        <span class="string">"sizes"</span>: <span class="string">"512x512"</span>,</span><br><span class="line">        <span class="string">"type"</span>: <span class="string">"image/png"</span></span><br><span class="line">    &#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在<a href="https://caniuse.com/#search=manifest" target="_blank" rel="noopener">Can I use</a>上可以看到这个API的兼容性：</p>
+<img src="/2019/03/31/pwa学习与实践-3-manifest/pwa-03-01.png">
+<p>可以看到兼容是比较差的，只有高版本的chrome是完全支持的，不过值得欣喜的是在ios safari的11.4版本以上也得到了支持。</p>
+<h1 id="字段解释"><a href="#字段解释" class="headerlink" title="字段解释"></a>字段解释</h1><h2 id="name-amp-short-name"><a href="#name-amp-short-name" class="headerlink" title="name &amp; short name"></a>name &amp; short name</h2><p>  指定了Web App的名称。short_name其实是该应用的一个简称。一般来说，当没有足够空间展示应用的name时，系统就会使用short_name。</p>
+<h2 id="start-url"><a href="#start-url" class="headerlink" title="start_url"></a>start_url</h2><p>  这个属性指定了用户打开该Web App时加载的URL。相对URL会相对于manifest。这里我们指定了start_url为/，访问根目录。</p>
+<h2 id="display"><a href="#display" class="headerlink" title="display"></a>display</h2><p>  display控制了应用的显示模式，它有四个值可以选择：fullscreen、standalone、minimal-ui和browser。</p>
+<ul>
+<li>fullscreen：全屏显示，会尽可能将所有的显示区域都占满；</li>
+<li>standalone：独立应用模式，这种模式下打开的应用有自己的启动图标，并且不会有浏览器的地址栏。因此看起来更像一个Native App；</li>
+<li>minimal-ui：与standalone相比，该模式会多出地址栏； </li>
+<li><p>browser：一般来说，会和正常使用浏览器打开样式一致。</p>
+<img src="/2019/03/31/pwa学习与实践-3-manifest/pwa-03-02.png">
+<p>当然，不同的系统所表现出的具体样式也不完全一样。就像示例中的虚拟按键在fullscreen模式下会默认隐藏。</p>
+</li>
+</ul>
+<h2 id="orientation"><a href="#orientation" class="headerlink" title="orientation"></a>orientation</h2><p>  控制Web App的方向。设置某些值会具有类似锁屏的效果（禁止旋转），例如例子中的portrait-primary。<br>  具体的值包括：any, natural, landscape, landscape-primary, landscape-secondary, portrait, portrait-primary, portrait-secondary</p>
+<h2 id="icons-amp-background-color"><a href="#icons-amp-background-color" class="headerlink" title="icons &amp; background_color"></a>icons &amp; background_color</h2><p>  icons用来指定应用的桌面图标。icons本身是一个数组，每个元素包含三个属性：</p>
+<ul>
+<li>sizes：图标的大小。通过指定大小，系统会选取最合适的图标展示在相应位置上。</li>
+<li>src：图标的文件路径。相对路径是相对于manifest。</li>
+<li><p>type：图标的图片类型。</p>
+<p>需要指出的是，“开屏图”其实是背景颜色+图标的展示模式（并不会设置一张所谓的开屏图）。<br>background_color是在应用的样式资源为加载完毕前的默认背景，因此会展示在开屏界面。<br>background_color加上我们刚才定义的icons就组成了Web App打开时的“开屏图”。</p>
+</li>
+</ul>
+<h2 id="theme-color"><a href="#theme-color" class="headerlink" title="theme_color"></a>theme_color</h2><p>  定义应用程序的默认主题颜色。 这有时会影响操作系统显示应用程序的方式（例如，在Android的任务切换器上，主题颜色包围应用程序）。<br>  此外，还可以在meta标签中设置theme_color：<code>&lt;meta name=&quot;theme-color&quot; content=&quot;#5eace0&quot;/&gt;</code></p>
+<h2 id="description"><a href="#description" class="headerlink" title="description"></a>description</h2><p>  提供有关Web应用程序的一般描述。</p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ul>
+<li><a href="https://alienzhou.gitbook.io/learning-pwa/manifest" target="_blank" rel="noopener">使用Manifest，让你的WebApp更“Native”</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/Manifest" target="_blank" rel="noopener">MDN</a></li>
+</ul>
+
       
     </div>
     
@@ -412,8 +454,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -473,6 +524,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Web-App-Manifest"><span class="nav-number">1.</span> <span class="nav-text">Web App Manifest</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字段解释"><span class="nav-number">2.</span> <span class="nav-text">字段解释</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#name-amp-short-name"><span class="nav-number">2.1.</span> <span class="nav-text">name &amp; short name</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#start-url"><span class="nav-number">2.2.</span> <span class="nav-text">start_url</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#display"><span class="nav-number">2.3.</span> <span class="nav-text">display</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orientation"><span class="nav-number">2.4.</span> <span class="nav-text">orientation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#icons-amp-background-color"><span class="nav-number">2.5.</span> <span class="nav-text">icons &amp; background_color</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#theme-color"><span class="nav-number">2.6.</span> <span class="nav-text">theme_color</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#description"><span class="nav-number">2.7.</span> <span class="nav-text">description</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章"><span class="nav-number">3.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
