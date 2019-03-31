@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="前端工程化," />
+  <meta name="keywords" content="pwa," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="rollup.js是Javascript的ES模块打包器，我们熟知的Vue、React等诸多知名框架或类库都通过rollup.js进行打包。与Webpack偏向于应用打包的定位不同，rollup.js更专注于Javascript类库打包">
-<meta name="keywords" content="前端工程化">
+<meta name="description" content="Progressive Web Apps 是 Google 提出的用前沿的 Web 技术为网页提供 App 般使用体验的一系列方案。">
+<meta name="keywords" content="pwa">
 <meta property="og:type" content="article">
-<meta property="og:title" content="快速精通构建工具rollup">
-<meta property="og:url" content="http://yoursite.com/2019/02/19/快速精通构建工具rollup/index.html">
+<meta property="og:title" content="pwa学习与实践(1)-pwa简介">
+<meta property="og:url" content="http://yoursite.com/2019/03/31/pwa学习与实践-1-pwa简介/index.html">
 <meta property="og:site_name" content="玩偶之家">
-<meta property="og:description" content="rollup.js是Javascript的ES模块打包器，我们熟知的Vue、React等诸多知名框架或类库都通过rollup.js进行打包。与Webpack偏向于应用打包的定位不同，rollup.js更专注于Javascript类库打包">
+<meta property="og:description" content="Progressive Web Apps 是 Google 提出的用前沿的 Web 技术为网页提供 App 般使用体验的一系列方案。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-31T11:30:14.528Z">
+<meta property="og:updated_time" content="2019-03-31T13:19:29.217Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="快速精通构建工具rollup">
-<meta name="twitter:description" content="rollup.js是Javascript的ES模块打包器，我们熟知的Vue、React等诸多知名框架或类库都通过rollup.js进行打包。与Webpack偏向于应用打包的定位不同，rollup.js更专注于Javascript类库打包">
+<meta name="twitter:title" content="pwa学习与实践(1)-pwa简介">
+<meta name="twitter:description" content="Progressive Web Apps 是 Google 提出的用前沿的 Web 技术为网页提供 App 般使用体验的一系列方案。">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/02/19/快速精通构建工具rollup/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/03/31/pwa学习与实践-1-pwa简介/"/>
 
 
 
 
 
-  <title>快速精通构建工具rollup | 玩偶之家</title>
+  <title>pwa学习与实践(1)-pwa简介 | 玩偶之家</title>
   
 
 
@@ -233,7 +233,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/19/快速精通构建工具rollup/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/31/pwa学习与实践-1-pwa简介/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Alex">
@@ -250,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">快速精通构建工具rollup</h1>
+          <h1 class="post-title" itemprop="name headline">pwa学习与实践(1)-pwa简介</h1>
         
 
         <div class="post-meta">
@@ -262,8 +262,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-19T23:57:32+08:00">
-                2019-02-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-31T19:33:58+08:00">
+                2019-03-31
               </time>
             
 
@@ -285,8 +285,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端工程化/" itemprop="url" rel="index">
-                    <span itemprop="name">前端工程化</span>
+                  <a href="/categories/pwa/" itemprop="url" rel="index">
+                    <span itemprop="name">pwa</span>
                   </a>
                 </span>
 
@@ -322,19 +322,36 @@
       
 
       
-        <p>rollup.js是Javascript的ES模块打包器，我们熟知的Vue、React等诸多知名框架或类库都通过rollup.js进行打包。与Webpack偏向于应用打包的定位不同，rollup.js更专注于Javascript类库打包</p>
+        <p>Progressive Web Apps 是 Google 提出的用前沿的 Web 技术为网页提供 App 般使用体验的一系列方案。</p>
 <a id="more"></a>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>和其他构建工具一样，rollup需要node和npm，所以要使用rollup首先要保证已经安装好这两种工具。</p>
-<p>安装方式也是分为两种：</p>
+<h1 id="什么是pwa"><a href="#什么是pwa" class="headerlink" title="什么是pwa"></a>什么是pwa</h1><p>Progressive Web App, 简称 PWA，是提升 Web App 的体验的一种新方法，能给用户原生应用的体验。</p>
+<p><a href="https://developers.google.cn/web/progressive-web-apps/" target="_blank" rel="noopener">PWA</a> 能做到原生应用的体验不是靠特指某一项技术，而是经过应用一些新技术进行改进，在安全、性能和体验三个方面都有很大提升，PWA 本质上是 Web App，借助一些新技术也具备了 Native App 的一些特性，兼具 Web App 和 Native App 的优点。</p>
+<p>PWA 的主要特点包括下面三点：</p>
 <ul>
-<li><p>全局安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install rollup --global</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装到项目本地</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install rollup --save-dev</span><br></pre></td></tr></table></figure>
-</li>
+<li>可靠 - 即使在不稳定的网络环境下，也能瞬间加载并展现</li>
+<li>体验 - 快速响应，并且有平滑的动画响应用户的操作</li>
+<li>粘性 - 像设备上的原生应用，具有沉浸式的用户体验，用户可以添加到桌面</li>
 </ul>
-<p>这里推荐安装到项目本地，安装完毕后可以使用<code>rollup -v</code>这个查看版本号的命令来检验是否安装成功。本文所使用的版本是v1.2.2。</p>
+<h2 id="pwa的主一些技术"><a href="#pwa的主一些技术" class="headerlink" title="pwa的主一些技术"></a>pwa的主一些技术</h2><p>PWA本身其实是一个概念集合，它不是指某一项技术，而是通过一系列的Web技术与Web标准来优化Web App的安全、性能和体验。其中涉及到的一些技术概念包括了：</p>
+<ul>
+<li>Web App Manifest</li>
+<li>Service Worker</li>
+<li>Cache API 缓存</li>
+<li>Push&amp;Notification 推送与通知</li>
+<li>Background Sync 后台同步</li>
+<li>响应式设计</li>
+<li>…</li>
+</ul>
+<p>这些技术都是你在学习PWA中不可或缺的。而随着apple在iOS Safari中也开始支持PWA（其中的某些技术），PWA的舞台更大了。</p>
+<h2 id="文章目录"><a href="#文章目录" class="headerlink" title="文章目录"></a>文章目录</h2><p>本文将根据pwa的几个关键技术，分章节介绍：</p>
+<ul>
+<li><a href="https://insaneblue.github.io/2019/03/31/pwa学习与实践-2-service-worker/" target="_blank" rel="noopener">Service Worker及service worker编写工具</a></li>
+<li><a href="https://insaneblue.github.io/2019/03/31/pwa学习与实践-3-manifest/" target="_blank" rel="noopener">Manifest </a></li>
+<li><a href="https://insaneblue.github.io/" target="_blank" rel="noopener">cache API 缓存</a></li>
+<li><a href="https://insaneblue.github.io/" target="_blank" rel="noopener">Push Notification 推送通知</a></li>
+<li><a href="https://insaneblue.github.io/" target="_blank" rel="noopener">pwa框架</a></li>
+<li>…</li>
+</ul>
 
       
     </div>
@@ -352,7 +369,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/前端工程化/" rel="tag"># 前端工程化</a>
+            <a href="/tags/pwa/" rel="tag"># pwa</a>
           
         </div>
       
@@ -365,8 +382,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/04/Event-Loop事件循环/" rel="next" title="Event Loop事件循环">
-                <i class="fa fa-chevron-left"></i> Event Loop事件循环
+              <a href="/2019/02/19/快速精通构建工具rollup/" rel="next" title="快速精通构建工具rollup">
+                <i class="fa fa-chevron-left"></i> 快速精通构建工具rollup
               </a>
             
           </div>
@@ -375,8 +392,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/03/31/pwa学习与实践-1-pwa简介/" rel="prev" title="pwa学习与实践(1)-pwa简介">
-                pwa学习与实践(1)-pwa简介 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/03/31/pwa学习与实践-2-service-worker/" rel="prev" title="pwa学习与实践(2)-service-worker">
+                pwa学习与实践(2)-service-worker <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -509,7 +526,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是pwa"><span class="nav-number">1.</span> <span class="nav-text">什么是pwa</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pwa的主一些技术"><span class="nav-number">1.1.</span> <span class="nav-text">pwa的主一些技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文章目录"><span class="nav-number">1.2.</span> <span class="nav-text">文章目录</span></a></li></ol></li></ol></div>
             
 
           </div>
