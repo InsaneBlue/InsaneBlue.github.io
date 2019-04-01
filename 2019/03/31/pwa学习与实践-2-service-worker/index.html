@@ -79,18 +79,27 @@
 
 
 
-<meta name="description" content="service worker 特点Service Worker 有以下功能和特性：  一个独立的 worker 线程，独立于当前网页进程，有自己独立的 worker context。  一旦被 install，就永远存在，除非被手动 unregister  用到的时候可以直接唤醒，不用的时候自动睡眠  可编程拦截代理请求和返回，缓存文件，缓存的文件可以被网页进程取到（包括网络离线状态）  离线内">
+<meta name="description" content="Service Worker可以简单理解为一个独立于前端页面，在后台运行的进程。">
 <meta name="keywords" content="pwa">
 <meta property="og:type" content="article">
 <meta property="og:title" content="pwa学习与实践(2)-service-worker">
 <meta property="og:url" content="http://yoursite.com/2019/03/31/pwa学习与实践-2-service-worker/index.html">
 <meta property="og:site_name" content="玩偶之家">
-<meta property="og:description" content="service worker 特点Service Worker 有以下功能和特性：  一个独立的 worker 线程，独立于当前网页进程，有自己独立的 worker context。  一旦被 install，就永远存在，除非被手动 unregister  用到的时候可以直接唤醒，不用的时候自动睡眠  可编程拦截代理请求和返回，缓存文件，缓存的文件可以被网页进程取到（包括网络离线状态）  离线内">
+<meta property="og:description" content="Service Worker可以简单理解为一个独立于前端页面，在后台运行的进程。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-31T13:22:21.736Z">
+<meta property="og:image" content="http://yoursite.com/2019/03/31/pwa学习与实践-2-service-worker/pwa-02-01.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/31/pwa学习与实践-2-service-worker/pwa-02-02.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/03/31/pwa学习与实践-2-service-worker/pwa-02-03.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/03/31/pwa学习与实践-2-service-worker/pwa-02-04.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/03/31/pwa学习与实践-2-service-worker/pwa-02-05.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/03/31/pwa学习与实践-2-service-worker/pwa-02-06.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/03/31/pwa学习与实践-2-service-worker/pwa-02-07.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/03/31/pwa学习与实践-2-service-worker/pwa-02-08.jpg">
+<meta property="og:updated_time" content="2019-04-01T08:25:09.057Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pwa学习与实践(2)-service-worker">
-<meta name="twitter:description" content="service worker 特点Service Worker 有以下功能和特性：  一个独立的 worker 线程，独立于当前网页进程，有自己独立的 worker context。  一旦被 install，就永远存在，除非被手动 unregister  用到的时候可以直接唤醒，不用的时候自动睡眠  可编程拦截代理请求和返回，缓存文件，缓存的文件可以被网页进程取到（包括网络离线状态）  离线内">
+<meta name="twitter:description" content="Service Worker可以简单理解为一个独立于前端页面，在后台运行的进程。">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/31/pwa学习与实践-2-service-worker/pwa-02-01.png">
 
 
 
@@ -322,7 +331,8 @@
       
 
       
-        <a id="more"></a>
+        <p>Service Worker可以简单理解为一个独立于前端页面，在后台运行的进程。</p>
+<a id="more"></a>
 <h1 id="service-worker-特点"><a href="#service-worker-特点" class="headerlink" title="service worker 特点"></a>service worker 特点</h1><p>Service Worker 有以下功能和特性：</p>
 <ul>
 <li><p>一个独立的 worker 线程，独立于当前网页进程，有自己独立的 worker context。</p>
@@ -339,10 +349,43 @@
 </li>
 <li><p>不能直接操作 DOM</p>
 </li>
-<li><p>必须在 HTTPS 环境下才能工作</p>
+<li><p>必须在 HTTPS 环境下才能工作。此外为方便本地开发，Service Worker也可以运行在localhost（127.0.0.1）域下</p>
 </li>
 <li><p>异步实现，内部大都是通过 Promise 实现</p>
 </li>
+</ul>
+<p>在<a href="https://caniuse.com/#search=service%20worker" target="_blank" rel="noopener">Can I use</a>上可以看到这个API的兼容性：</p>
+ <img src="/2019/03/31/pwa学习与实践-2-service-worker/pwa-02-01.png">
+<h1 id="service-worker-机制"><a href="#service-worker-机制" class="headerlink" title="service worker 机制"></a>service worker 机制</h1><p>Service Worker有一个非常重要的特性：你可以在Service Worker中监听所有客户端（Web）发出的请求，然后通过Service Worker来代理，向后端服务发起请求。通过监听用户请求信息，Service Worker可以决定是否使用缓存来作为Web请求的返回。<br>下图展示普通Web App与添加了Service Worker的Web App在网络请求上的差异：</p>
+ <img src="/2019/03/31/pwa学习与实践-2-service-worker/pwa-02-02.jpg">
+<h1 id="如何使用service-worker"><a href="#如何使用service-worker" class="headerlink" title="如何使用service worker"></a>如何使用service worker</h1><h2 id="注册service-worker"><a href="#注册service-worker" class="headerlink" title="注册service worker"></a>注册service worker</h2><p>要注册service worker 首先需要在页面上添加这一段代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="comment">// 注册service worker，service worker脚本文件为sw.js</span></span><br><span class="line"><span class="keyword">if</span> (<span class="string">'serviceWorker'</span> <span class="keyword">in</span> navigator) &#123;</span><br><span class="line">    navigator.serviceWorker.register(<span class="string">'./sw.js'</span>).then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'Service Worker 注册成功'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="service-worker-生命周期"><a href="#service-worker-生命周期" class="headerlink" title="service worker 生命周期"></a>service worker 生命周期</h2><p>当我们注册了Service Worker后，它会经历生命周期的各个阶段，同时会触发相应的事件。整个生命周期包括了：installing –&gt; installed –&gt; activating –&gt; activated –&gt; redundant。当Service Worker安装（installed）完毕后，会触发install事件；而激活（activated）后，则会触发activate事件。</p>
+ <img src="/2019/03/31/pwa学习与实践-2-service-worker/pwa-02-03.jpg">
+<p>下面的例子监听了install事件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 监听install事件</span></span><br><span class="line">self.addEventListener(<span class="string">'install'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Service Worker 状态： install'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>self是Service Worker中一个特殊的全局变量，类似于我们最常见的window对象。self引用了当前这个Service Worker。</p>
+<h2 id="缓存静态资源"><a href="#缓存静态资源" class="headerlink" title="缓存静态资源"></a>缓存静态资源</h2><p>要使Web App离线可用，就需要将所需资源缓存下来。首先需要一个资源列表，当Service Worker被激活时，会将该列表内的资源缓存进cache。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// sw.js</span></span><br><span class="line"><span class="keyword">var</span> cacheName = <span class="string">'bs-0-2-0'</span>;</span><br><span class="line"><span class="keyword">var</span> cacheFiles = [</span><br><span class="line">    <span class="string">'/'</span>,</span><br><span class="line">    <span class="string">'./index.html'</span>,</span><br><span class="line">    <span class="string">'./index.js'</span>,</span><br><span class="line">    <span class="string">'./style.css'</span>,</span><br><span class="line">    <span class="string">'./img/book.png'</span>,</span><br><span class="line">    <span class="string">'./img/loading.svg'</span></span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听install事件，安装完成后，进行文件缓存</span></span><br><span class="line">self.addEventListener(<span class="string">'install'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Service Worker 状态： install'</span>);</span><br><span class="line">    <span class="keyword">var</span> cacheOpenPromise = caches.open(cacheName).then(<span class="function"><span class="keyword">function</span> (<span class="params">cache</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> cache.addAll(cacheFiles);</span><br><span class="line">    &#125;);</span><br><span class="line">    e.waitUntil(cacheOpenPromise);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>可以看到，首先在 <code>cacheFiles</code> 中我们列出了所有的静态资源依赖。注意其中的<code>&#39;/&#39;</code>，由于根路径也可以访问我们的应用，因此不要忘了将其也缓存下来。当Service Worker install时，我们就会通过 <code>caches.open()</code> 与 <code>cache.addAll()</code> 方法将资源缓存起来。这里我们给缓存起了一个 <code>cacheName</code> ，这个值会成为这些缓存的key。<br>上面这段代码中，<code>caches</code> 是一个全局变量，通过它我们可以操作Cache相关接口。</p>
+<blockquote>
+<p>Cache 接口提供缓存的 Request / Response 对象对的存储机制。Cache 接口像 workers 一样, 是暴露在 window 作用域下的。尽管它被定义在 service worker 的标准中, 但是它不必一定要配合 service worker 使用。——MDN</p>
+</blockquote>
+<h3 id="workbox"><a href="#workbox" class="headerlink" title="workbox"></a>workbox</h3><p>workbox的出现就是为了解决上面的问题的，它被定义为PWA相关的工具集合，其实围绕它的还有一些列工具，如workbox-cli、gulp-workbox、webpack-workbox-plagin等等。</p>
+<p>其实可以把workbox理解为Google官方PWA框架，它解决的就是用底层API写PWA太过复杂的问题。这里说的底层API，指的就是去监听SW的install, active, fetch事件做相应逻辑处理等。使用起来是这样的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 首先引入workbox框架</span></span><br><span class="line">importScripts(<span class="string">'https://storage.googleapis.com/workbox-cdn/releases/3.3.0/workbox-sw.js'</span>);</span><br><span class="line">workbox.precaching([</span><br><span class="line">  <span class="comment">// 注册成功后要立即缓存的资源列表</span></span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="comment">// html的缓存策略</span></span><br><span class="line">workbox.routing.registerRoute(</span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'.*\.html'</span>),</span><br><span class="line">  workbox.strategies.networkFirst()</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">workbox.routing.registerRoute(</span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'.*\.(?:js|css)'</span>),</span><br><span class="line">  workbox.strategies.cacheFirst()</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">workbox.routing.registerRoute(</span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'https://your\.cdn\.com/'</span>),</span><br><span class="line">  workbox.strategies.staleWhileRevalidate()</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">workbox.routing.registerRoute(</span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'https://your\.img\.cdn\.com/'</span>),</span><br><span class="line">  workbox.strategies.cacheFirst(&#123;</span><br><span class="line">    cacheName: <span class="string">'example:img'</span></span><br><span class="line">  &#125;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>workbox提供了几种最常用的策略：</p>
+<ul>
+<li>Stale-While-Revalidate<img src="/2019/03/31/pwa学习与实践-2-service-worker/pwa-02-04.jpg"></li>
+<li>Cache First (Cache Falling Back to Network)<img src="/2019/03/31/pwa学习与实践-2-service-worker/pwa-02-05.jpg">  </li>
+<li>Network First (Network Falling Back to Cache)<img src="/2019/03/31/pwa学习与实践-2-service-worker/pwa-02-06.jpg"></li>
+<li>Network Only<img src="/2019/03/31/pwa学习与实践-2-service-worker/pwa-02-07.jpg">  </li>
+<li>Cache Only<img src="/2019/03/31/pwa学习与实践-2-service-worker/pwa-02-08.jpg">
+</li>
+</ul>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ul>
+<li><a href="https://developers.google.com/web/tools/workbox/modules/workbox-strategies#stale-while-revalidate" target="_blank" rel="noopener">Workbox Strategies</a></li>
+<li><a href="https://alienzhou.gitbook.io/learning-pwa/3-rang-ni-de-webapp-li-xian-ke-yong" target="_blank" rel="noopener">让你的WebApp离线可用</a></li>
 </ul>
 
       
@@ -518,7 +561,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#service-worker-特点"><span class="nav-number">1.</span> <span class="nav-text">service worker 特点</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#service-worker-特点"><span class="nav-number">1.</span> <span class="nav-text">service worker 特点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#service-worker-机制"><span class="nav-number">2.</span> <span class="nav-text">service worker 机制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何使用service-worker"><span class="nav-number">3.</span> <span class="nav-text">如何使用service worker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#注册service-worker"><span class="nav-number">3.1.</span> <span class="nav-text">注册service worker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#service-worker-生命周期"><span class="nav-number">3.2.</span> <span class="nav-text">service worker 生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存静态资源"><span class="nav-number">3.3.</span> <span class="nav-text">缓存静态资源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#workbox"><span class="nav-number">3.3.1.</span> <span class="nav-text">workbox</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章"><span class="nav-number">4.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
             
 
           </div>
